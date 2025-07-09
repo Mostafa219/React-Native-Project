@@ -1,11 +1,13 @@
-import { Text, View } from "react-native";
-import React, { Component } from "react";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import RecommendedMovies from "../../components/RecommendedMovies/RecommendedMovies";
 
-export default class Home extends Component {
-  render() {
-    return (
-      <View>
-        <Text>Home</Text>
+const Home = ({ navigation }) => {
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#111010" }}>
+      <View style={homeStyles.wrapper}>
+        <RecommendedMovies navigation={navigation} />
       </View>
     </SafeAreaView>
   );
