@@ -4,30 +4,30 @@ import {
   Text,
   TextInput,
   FlatList,
-  Image,
   TouchableOpacity,
   Modal,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import RNPickerSelect from 'react-native-picker-select';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { useNavigation } from '@react-navigation/native';
 import { searchByQuery } from '../../api/themoviedbApi';
+import SearchCard from './../../components/SearchCard/SearchCard';
 
-
-const genres = [
-  { label: 'Action', value: '28' },
-  { label: 'Comedy', value: '35' },
-  { label: 'Drama', value: '18' },
-  { label: 'Horror', value: '27' },
-  { label: 'Romance', value: '10749' },
-  { label: 'Documentary', value: '99' },
-  { label: 'Animation', value: '16' },
-  { label: 'Science Fiction', value: '878' },
-  { label: 'Thriller', value: '53' },
+const languages = [
+  { label: 'English (US)', value: 'en-US' },
+  { label: 'Arabic (EG)', value: 'ar-EG' },
+  { label: 'French (FR)', value: 'fr-FR' },
+  { label: 'Spanish (ES)', value: 'es-ES' },
+  { label: 'German (DE)', value: 'de-DE' },
+  { label: 'Japanese (JP)', value: 'ja-JP' },
 ];
 
 export default function Search() {
+  const navigation = useNavigation();
+
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
@@ -36,18 +36,27 @@ export default function Search() {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [year, setYear] = useState('');
-  const [rating, setRating] = useState('');
-  const [genre, setGenre] = useState('');
+  const [language, setLanguage] = useState('');
+  const [filtersApplied, setFiltersApplied] = useState(false);
 
   const years = Array.from({ length: 2025 - 1980 + 1 }, (_, i) => {
     const y = (2025 - i).toString();
     return { label: y, value: y };
   });
 
-  const ratings = Array.from({ length: 19 }, (_, i) => {
-    const r = (1 + i * 0.5).toFixed(1);
-    return { label: r, value: r };
-  });
+  const [yearOpen, setYearOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
+
+  const [yearItems, setYearItems] = useState(years);
+  const [languageItems, setLanguageItems] = useState(languages);
+
+  useEffect(() => {
+    if (yearOpen) {
+      setLanguageOpen(false);
+    } else if (languageOpen) {
+      setYearOpen(false);
+    }
+  }, [yearOpen, languageOpen]);
 
   const fetchMovies = useCallback(
     async (reset = false) => {
@@ -58,9 +67,8 @@ export default function Search() {
         const data = await searchByQuery({
           query,
           page: reset ? 1 : page,
-          year,
-          rating,
-          genre,
+          year: filtersApplied ? year : '',
+          language: filtersApplied ? language : '',
         });
 
         if (reset) {
@@ -78,7 +86,7 @@ export default function Search() {
         setLoading(false);
       }
     },
-    [query, page, year, rating, genre, loading]
+    [query, page, year, language, loading, filtersApplied]
   );
 
   useEffect(() => {
@@ -87,63 +95,71 @@ export default function Search() {
       fetchMovies(true);
     }, 500);
     return () => clearTimeout(timer);
-  }, [query, year, rating, genre]);
+  }, [query]);
 
-  const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Image
-        source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
-        style={styles.image}
-      />
-      <Text style={styles.title} numberOfLines={1}>
-        {item.title}
-      </Text>
-    </View>
-  );
+  const renderItem = ({ item }) => <SearchCard item={item} />;
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backArrow}>
+        <Ionicons name="chevron-back" size={24} color="#fff" />
+      </TouchableOpacity>
       <View style={styles.searchBar}>
         <TextInput
-          placeholder="Search for a movie..."
-          placeholderTextColor="#888"
+          placeholder="Search any movies name here"
+          placeholderTextColor="#939392"
           style={styles.input}
           value={query}
           onChangeText={setQuery}
         />
         <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Ionicons name="filter" size={24} color="#fff" />
+          <FontAwesome name="filter" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
-
+    </View>
+      <View style={styles.resultsHeader}>
+        <Text style={styles.resultsTitle}>Search Results</Text>
+        {!loading && results.length === 0 && query.trim() !== '' && (
+          <Text style={styles.noResultsText}>No results found</Text>
+        )}
+      </View>
       <Modal visible={modalVisible} transparent animationType="slide">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Filter Results</Text>
 
-            <RNPickerSelect
-              onValueChange={setGenre}
-              items={genres}
-              placeholder={{ label: 'Select Genre', value: '' }}
-              style={pickerSelectStyles}
+            <DropDownPicker
+              open={languageOpen}
+              value={language}
+              items={languageItems}
+              setOpen={setLanguageOpen}
+              setValue={(callback) => setLanguage(callback(language)) }
+              setItems={setLanguageItems}
+              placeholder="Select Language"
+              style={styles.dropdown}
+              textStyle={{ color: '#fff' }}
+              dropDownContainerStyle={{ backgroundColor: '#1E1E1E' }}
             />
-            <RNPickerSelect
-              onValueChange={setYear}
-              items={years}
-              placeholder={{ label: 'Select Year', value: '' }}
-              style={pickerSelectStyles}
-            />
-            <RNPickerSelect
-              onValueChange={setRating}
-              items={ratings}
-              placeholder={{ label: 'Select Min Rating', value: '' }}
-              style={pickerSelectStyles}
+
+            <DropDownPicker
+              open={yearOpen}
+              value={year}
+              items={yearItems}
+              setOpen={setYearOpen}
+              setValue={(callback) => setYear(callback(year)) }
+              setItems={setYearItems}
+              placeholder="Select Year"
+              style={styles.dropdown}
+              textStyle={{ color: '#fff' }}
+              dropDownContainerStyle={{ backgroundColor: '#1E1E1E' }}
             />
 
             <TouchableOpacity
               style={styles.filterButton}
               onPress={() => {
                 setModalVisible(false);
+                setFiltersApplied(true);
                 setPage(1);
                 fetchMovies(true);
               }}
@@ -158,8 +174,9 @@ export default function Search() {
         data={results}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        contentContainerStyle={styles.list}
+        numColumns={3}
+        contentContainerStyle={styles.flatListContainer}
+        columnWrapperStyle={styles.columnWrapper}
         onEndReached={() => {
           if (hasMore && !loading) fetchMovies();
         }}
@@ -175,43 +192,60 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#121011',
     padding: 10,
+    paddingTop: 50,
+  },
+  backArrow: {
+    marginLeft: 5,
+    marginBottom: 10,
+    backgroundColor: '#1E1E1E',
+    height:50,
+    width:50,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
   },
   searchBar: {
+    flex: 1,
     backgroundColor: '#1E1E1E',
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 8,
-    paddingHorizontal: 10,
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    height: 50,
+    marginHorizontal: 10,
     marginBottom: 10,
-    height: 45,
   },
   input: {
     flex: 1,
     color: '#fff',
     marginRight: 10,
   },
-  card: {
-    flex: 1,
-    margin: 5,
-    backgroundColor: '#1E1E1E',
-    borderRadius: 10,
-    overflow: 'hidden',
-    alignItems: 'center',
+  resultsHeader: {
+    paddingHorizontal: 8,
+    marginBottom: 10,
   },
-  image: {
-    width: '100%',
-    aspectRatio: 2 / 3,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
-  title: {
+  resultsTitle: {
     color: '#fff',
-    fontSize: 14,
-    padding: 5,
-    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 4,
   },
-  list: {
+  noResultsText: {
+    color: '#aaa',
+    fontSize: 14,
+  },
+  flatListContainer: {
     paddingBottom: 20,
+    paddingHorizontal: 5,
+  },
+  columnWrapper: {
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
   modalOverlay: {
     flex: 1,
@@ -229,6 +263,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 15,
   },
+  dropdown: {
+    backgroundColor: '#121011',
+    borderColor: '#333',
+    marginBottom: 15,
+    zIndex: 1000,
+  },
   filterButton: {
     backgroundColor: '#EB2F3D',
     paddingVertical: 12,
@@ -240,26 +280,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-const pickerSelectStyles = {
-  inputIOS: {
-    backgroundColor: '#121011',
-    color: '#fff',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 15,
-  },
-  inputAndroid: {
-    backgroundColor: '#121011',
-    color: '#fff',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 15,
-  },
-  placeholder: {
-    color: '#aaa',
-  },
-};
-
-
-
