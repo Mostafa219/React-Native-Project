@@ -1,20 +1,49 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
+import {
+  addFavorite,
+  deleteFavorite,
+  favoriteExists,
+} from '../../lib/favorites/utilitys.js';
 
-export default function FilmCard() {
+export default function FilmCard({ id, title, rating, poster }) {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    const checkFavorite = async () => {
+      const exists = await favoriteExists(id);
+      setIsFavorite(exists);
+    };
+    checkFavorite();
+  }, []);
+
+  const toggleFavorite = async () => {
+    const filmData = { id, title, rating, poster };
+    if (isFavorite) {
+      await deleteFavorite(id);
+      setIsFavorite(false);
+    } else {
+      await addFavorite(filmData);
+      setIsFavorite(true);
+    }
+  };
+
   return (
     <View style={styles.filmcard}>
       <ImageBackground
-        source={require('../../../assets/filmposter.png')}
+        source={typeof poster === 'string' ? { uri: poster } : poster}
         style={styles.filmposter}
-        imageStyle={styles.imageStyle}>
-        <TouchableOpacity style={styles.favIconContainer}>
-          <Ionicons name="heart-outline" size={20} color="#fff" />
+        imageStyle={styles.imageStyle}
+      >
+        <TouchableOpacity style={styles.favIconContainer} onPress={toggleFavorite}>
+          <Ionicons name={isFavorite ? 'heart' : 'heart-outline'} size={20} color="#fff" />
         </TouchableOpacity>
       </ImageBackground>
 
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Salaar (part 1)</Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.rating}>⭐ {rating}</Text>
       </View>
     </View>
   );
@@ -22,7 +51,7 @@ export default function FilmCard() {
 
 const styles = StyleSheet.create({
   filmcard: {
-    marginVertical: 90,
+    marginVertical: 20,
   },
   filmposter: {
     width: 162,
@@ -42,8 +71,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E1E1E',
     padding: 8,
     borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   titleContainer: {
     marginTop: 10,
@@ -54,6 +81,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     textTransform: 'uppercase',
-    fontFamily: 'Inter',
+  },
+  rating: {
+    color: '#aaa',
+    fontSize: 12,
+    marginTop: 2,
   },
 });

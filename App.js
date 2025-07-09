@@ -48,15 +48,8 @@ function SearchScreen() {
 
 function FavouriteScreen() {
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#121011",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text style={{ color: "#fff" }}>Favourite Screen</Text>
+    <View style={{ flex: 1, backgroundColor: '#121011', justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ color: '#fff' }}>Favourite Screen</Text>
     </View>
   );
 }
