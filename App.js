@@ -1,20 +1,17 @@
+import React, { useCallback, useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
 
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import FilmCard from './src/components/FilmCard/Filmcard';
-import MovieCardTrend from './src/components/MovieCardTrend/MovieCardTrend';
-import MovieDetails from './src/screens/MovieDetails/MovieDetails';
-
-import React, { useCallback, useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import * as SplashScreen from 'expo-splash-screen';
-
-
-import CustomSplash from './src/screens/splash/splash';
-
+import CustomSplash from "./src/screens/splash/splash";
+import Home from "./src/screens/home/Home";
+import FilmCard from "./src/components/FilmCard/Filmcard";
+import MovieCardTrend from "./src/components/MovieCardTrend/MovieCardTrend";
+import MovieDetails from "./src/screens/MovieDetails/MovieDetails";
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
@@ -37,10 +34,15 @@ function SearchScreen() {
 
 function FavouriteScreen() {
   return (
-
-    <View style={{ flex: 1, backgroundColor: '#121011', justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ color: '#fff' }}>Favourite Screen</Text>
-
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#121011",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text style={{ color: "#fff" }}>Favourite Screen</Text>
     </View>
   );
 }
@@ -73,8 +75,7 @@ export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
-    // Simulate loading before splash screen transition
-    setTimeout(() => setAppIsReady(true), 100); // delay فقط للتهيئة
+    setTimeout(() => setAppIsReady(true), 100);
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
