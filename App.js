@@ -5,10 +5,21 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import * as SplashScreen from "expo-splash-screen";
 import { View, Text } from "react-native";
-
 import CustomSplash from "./src/screens/splash/splash";
 import Home from "./src/screens/home/Home";
-
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import FilmCard from './src/components/FilmCard/Filmcard';
+import MovieCardTrend from './src/components/MovieCardTrend/MovieCardTrend';
+import MovieDetails from './src/screens/MovieDetails/MovieDetails';
+import React, { useCallback, useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import * as SplashScreen from 'expo-splash-screen';
+import { View, Text } from 'react-native';
+import CustomSplash from './src/screens/splash/splash';
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
@@ -54,6 +65,7 @@ function FavouriteScreen() {
       }}
     >
       <Text style={{ color: "#fff" }}>Favourite Screen</Text>
+
     </View>
   );
 }

@@ -7,7 +7,9 @@ const API_OPTIONS = {
   headers: {
     accept: 'application/json',
     Authorization: `Bearer ${process.env.EXPO_PUBLIC_TMDB_ACCESS_TOKEN}`,
+
   },
+
 };
 
 async function fetchFromTMDB(path, params = {}) {
