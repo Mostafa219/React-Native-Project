@@ -7,14 +7,6 @@ export default class Home extends Component {
       <View>
         <Text>Home</Text>
       </View>
-    </SafeAreaView>
-  );
-};
-
-export default Home;
-
-const homeStyles = StyleSheet.create({
-  wrapper: {
-    marginTop: 28,
-  },
-});
+    );
+  }
+}
