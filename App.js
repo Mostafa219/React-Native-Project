@@ -1,3 +1,25 @@
+<<<<<<< Updated upstream
+import React, { useCallback, useEffect, useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import * as SplashScreen from "expo-splash-screen";
+import { View, Text } from "react-native";
+import CustomSplash from "./src/screens/splash/splash";
+import Home from "./src/screens/home/Home";
+=======
+
+>>>>>>> Stashed changes
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import FilmCard from './src/components/FilmCard/Filmcard';
+import MovieCardTrend from './src/components/MovieCardTrend/MovieCardTrend';
+import MovieDetails from './src/screens/MovieDetails/MovieDetails';
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -5,9 +27,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import * as SplashScreen from 'expo-splash-screen';
 import { View, Text } from 'react-native';
+<<<<<<< Updated upstream
+=======
 
+
+>>>>>>> Stashed changes
 import CustomSplash from './src/screens/splash/splash';
-
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
@@ -15,23 +40,51 @@ const Tab = createBottomTabNavigator();
 
 function HomeScreen() {
   return (
-    <View style={{ flex: 1, backgroundColor: '#121011', justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ color: '#fff' }}>Home Screen</Text>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#121011",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Home />
     </View>
   );
 }
 function SearchScreen() {
   return (
-    <View style={{ flex: 1, backgroundColor: '#121011', justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ color: '#fff' }}>Home Screen</Text>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#121011",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text style={{ color: "#fff" }}>Home Screen</Text>
     </View>
   );
 }
 
 function FavouriteScreen() {
   return (
+<<<<<<< Updated upstream
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#121011",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text style={{ color: "#fff" }}>Favourite Screen</Text>
+=======
+
     <View style={{ flex: 1, backgroundColor: '#121011', justifyContent: 'center', alignItems: 'center' }}>
       <Text style={{ color: '#fff' }}>Favourite Screen</Text>
+>>>>>>> Stashed changes
+
     </View>
   );
 }
@@ -41,14 +94,14 @@ function MainTabs() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: '#EB2F3D',
-        tabBarInactiveTintColor: '#999',
-        tabBarStyle: { backgroundColor: '#1E1E1E' },
+        tabBarActiveTintColor: "#EB2F3D",
+        tabBarInactiveTintColor: "#999",
+        tabBarStyle: { backgroundColor: "#1E1E1E" },
         tabBarIcon: ({ color, size }) => {
           let iconName;
-          if (route.name === 'Home') iconName = 'home';
-          else if (route.name === 'Search') iconName = 'search';
-          else if (route.name === 'Favourite') iconName = 'heart';
+          if (route.name === "Home") iconName = "home";
+          else if (route.name === "Search") iconName = "search";
+          else if (route.name === "Favourite") iconName = "heart";
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}

@@ -8,13 +8,14 @@ import {
   View,
   ActivityIndicator,
 } from "react-native";
-
+import AntDesign from "@expo/vector-icons/AntDesign";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 const RecommendedMovies = ({ navigation }) => {
   const [direction, setDirection] = useState("horizontal");
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fav, setFav] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const accessToken = process.env.EXPO_PUBLIC_TMDB_ACCESS_TOKEN;
@@ -61,9 +62,7 @@ const RecommendedMovies = ({ navigation }) => {
           height: 280,
           marginInline: 10,
         }}
-        onPress={() =>
-          navigation.navigate("MovieDetails ", { movieId: item.id })
-        }
+        // onPress={() => navigation.navigate("FilmCard ", { movieId: item.id })}
       >
         <View
           style={{ borderRadius: 15, overflow: "hidden", marginBottom: 15 }}
@@ -108,7 +107,8 @@ const RecommendedMovies = ({ navigation }) => {
               <Text
                 style={{ fontSize: 13, fontWeight: "400", color: "#EB2F3D" }}
               >
-                {direction === "horizontal" ? "Show all" : "Show less"}
+                {direction === "horizontal" ? "See All " : "See Less "}
+                <AntDesign name="right" size={13} color="#EB2F3D" />
               </Text>
             </TouchableOpacity>
           </View>
