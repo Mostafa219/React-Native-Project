@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   FlatList,
-  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,13 +8,16 @@ import {
   ActivityIndicator,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
+
+import FilmCard from "../FilmCard/Filmcard";
+
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 const RecommendedMovies = ({ navigation }) => {
   const [direction, setDirection] = useState("horizontal");
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [fav, setFav] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const accessToken = process.env.EXPO_PUBLIC_TMDB_ACCESS_TOKEN;
@@ -52,37 +54,19 @@ const RecommendedMovies = ({ navigation }) => {
   const renderedItem = ({ item }) => {
     const posterUrl = item.poster_path
       ? `${IMAGE_BASE_URL}${item.poster_path}`
-      : `https://placehold.co/160x240/1a1a1a/ffffff?text=No+Image`;
+      : "https://placehold.co/162x216/1a1a1a/ffffff?text=No+Image";
 
     return (
       <TouchableOpacity
-        style={{
-          position: "relative",
-          width: 160,
-          height: 280,
-          marginInline: 10,
-        }}
-        onPress={() => navigation.navigate("FilmCard ", { movieId: item.id })}
+        style={{ marginHorizontal: 10 }}
+        onPress={() => navigation.navigate("FilmDetails", { movieId: item.id })}
       >
-        <View
-          style={{ borderRadius: 15, overflow: "hidden", marginBottom: 15 }}
-        >
-          <ImageBackground
-            source={{ uri: posterUrl }}
-            style={styles.productImage}
-          ></ImageBackground>
-        </View>
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: "600",
-            paddingInline: 5,
-            color: "#fff",
-          }}
-          numberOfLines={2}
-        >
-          {item.title}
-        </Text>
+        <FilmCard
+          id={item.id}
+          title={item.title}
+          poster={posterUrl}
+          rating={item.vote_average.toFixed(1)}
+        />
       </TouchableOpacity>
     );
   };
@@ -90,28 +74,24 @@ const RecommendedMovies = ({ navigation }) => {
   return (
     <View>
       <View style={styles.headerSection}>
-        <View>
-          <View style={styles.sectionHeader}>
-            <Text style={{ fontSize: 16, fontWeight: "700", color: "#fff" }}>
-              Recommended Movies
+        <View style={styles.sectionHeader}>
+          <Text style={{ fontSize: 16, fontWeight: "700", color: "#fff" }}>
+            Recommended Movies
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              if (direction === "horizontal") {
+                setDirection("vertical");
+              } else {
+                setDirection("horizontal");
+              }
+            }}
+          >
+            <Text style={{ fontSize: 13, fontWeight: "400", color: "#EB2F3D" }}>
+              {direction === "horizontal" ? "See All " : "See Less "}
+              <AntDesign name="right" size={13} color="#EB2F3D" />
             </Text>
-            <TouchableOpacity
-              onPress={() => {
-                if (direction === "horizontal") {
-                  setDirection("vertical");
-                } else {
-                  setDirection("horizontal");
-                }
-              }}
-            >
-              <Text
-                style={{ fontSize: 13, fontWeight: "400", color: "#EB2F3D" }}
-              >
-                {direction === "horizontal" ? "See All " : "See Less "}
-                <AntDesign name="right" size={13} color="#EB2F3D" />
-              </Text>
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
       {loading ? (
@@ -123,7 +103,7 @@ const RecommendedMovies = ({ navigation }) => {
       ) : direction === "horizontal" ? (
         <FlatList
           showsHorizontalScrollIndicator={false}
-          horizontal={direction === "horizontal"}
+          horizontal={true}
           data={movies}
           renderItem={renderedItem}
           keyExtractor={(item) => item.id.toString()}
@@ -134,7 +114,6 @@ const RecommendedMovies = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           key={direction}
           numColumns={2}
-          horizontal={direction === "horizontal"}
           data={movies}
           renderItem={renderedItem}
           keyExtractor={(item) => item.id.toString()}
@@ -149,27 +128,20 @@ export default RecommendedMovies;
 
 const styles = StyleSheet.create({
   headerSection: {
-    paddingInline: 32,
+    marginTop: 10,
+    paddingHorizontal: 20,
   },
   sectionHeader: {
-    paddingInline: 5,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 19,
-  },
-  productImage: {
-    width: "100%",
-    height: 220,
-    resizeMode: "cover",
-    backgroundColor: "#eaeeef",
+    marginBottom: 5,
   },
   horizontalList: {
-    paddingHorizontal: 22,
+    paddingHorizontal: 10,
   },
   verticalList: {
-    marginTop: 19,
-    paddingHorizontal: 22,
+    paddingHorizontal: 12,
     alignItems: "center",
     paddingBottom: 100,
   },
