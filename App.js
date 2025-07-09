@@ -1,11 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import FilmCard from './src/components/FilmCard/Filmcard';
+import MovieCardTrend from './src/components/MovieCardTrend/MovieCardTrend';
+import MovieDetails from './src/screens/MovieDetails/MovieDetails';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <View >
       <StatusBar style="auto" />
+
+      <MovieDetails />
     </View>
   );
 }
