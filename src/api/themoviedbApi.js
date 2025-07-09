@@ -7,7 +7,9 @@ const API_OPTIONS = {
   headers: {
     accept: 'application/json',
     Authorization: `Bearer ${process.env.EXPO_PUBLIC_TMDB_ACCESS_TOKEN}`,
-  }
+
+  },
+
 };
 
 async function fetchFromTMDB(path, params = {}) {
@@ -29,6 +31,31 @@ async function fetchFromTMDB(path, params = {}) {
   }
 }
 
+export async function searchByQuery({
+  query = '',
+  page = 1,
+  year = '',
+  language = '',
+}) {
+  const isForbidden =
+    query && preventSearchWords.includes(query.toLowerCase());
+  const finalQuery = isForbidden || !query.trim() ? '' : query;
+
+  const path = '/search/movie';
+  const params = {
+    query: finalQuery,
+    page,
+    include_adult: false,
+    ...(year && { primary_release_year: year }),
+    ...(language && { language }), 
+  };
+
+  return fetchFromTMDB(path, params);
+}
+
+
+
+
 export async function getNowPlayingMovies(page = 1, language = 'en-US') {
   const path = '/movie/now_playing';
   const params = { language, page };
@@ -43,19 +70,5 @@ export async function getMovieDetailsByID(id, language = 'en-US') {
     language,
     append_to_response: 'credits,videos,recommendations,similar'
   };
-  return fetchFromTMDB(path, params);
-}
-
-export async function searchByQuery(query = '', page = 1, language = 'en-US') {
-  const isForbidden = query && preventSearchWords.includes(query.toLowerCase());
-  const finalQuery = isForbidden || !query.trim() ? 'a' : query;
-
-  const path = '/search/movie';
-  const params = {
-    query: finalQuery,
-    page,
-    language
-  };
-
   return fetchFromTMDB(path, params);
 }
