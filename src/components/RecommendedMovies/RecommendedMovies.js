@@ -62,7 +62,7 @@ const RecommendedMovies = ({ navigation }) => {
           height: 280,
           marginInline: 10,
         }}
-        // onPress={() => navigation.navigate("FilmCard ", { movieId: item.id })}
+        onPress={() => navigation.navigate("FilmCard ", { movieId: item.id })}
       >
         <View
           style={{ borderRadius: 15, overflow: "hidden", marginBottom: 15 }}
