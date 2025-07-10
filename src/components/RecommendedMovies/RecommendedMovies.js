@@ -61,7 +61,12 @@ const RecommendedMovies = ({ navigation }) => {
         style={{ marginHorizontal: 10 }}
         onPress={() => navigation.navigate("MovieDetails", { movie })}
       >
-        <FilmCard movie={item} />
+        <FilmCard
+          id={item.id}
+          title={item.title}
+          rating={item.vote_average}
+          poster={posterUrl}
+        />
       </TouchableOpacity>
     );
   };
