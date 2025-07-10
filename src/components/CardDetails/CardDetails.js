@@ -9,6 +9,7 @@ import {
   getFavorites,
 } from "../../lib/favorites/utilitys";
 import { useFocusEffect } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 const CardDetails = ({ movie }) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -78,11 +79,11 @@ const CardDetails = ({ movie }) => {
           style={styles.favIconContainer}
           onPress={toggleFavorite}
         >
-          <Entypo
-            name="heart"
-            size={36}
-            style={isFavorite ? styles.activeFavIcon : styles.favIcon}
-          />
+          <Ionicons
+              name={isFavorite ? "heart" : "heart-outline"}
+              size={20}
+              color="#fff"
+            />
         </TouchableOpacity>
       </View>
 
@@ -132,12 +133,12 @@ const styles = StyleSheet.create({
   detailsContainer: {
     paddingTop: 25,
     padding: 20,
-    width: "85%",
+    width: "90%",
     backgroundColor: "#1E1E1E",
     borderRadius: 50,
     marginBottom: 30,
     marginHorizontal: "auto",
-    marginTop: -100,
+    marginTop: -150,
   },
   row: {
     flexDirection: "row",
