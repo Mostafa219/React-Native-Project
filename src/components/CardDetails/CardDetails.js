@@ -1,11 +1,17 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
+import {
+  addFavorite,
+  deleteFavorite,
+  favoriteExists,
+} from "../../lib/favorites/utilitys";
 
 const CardDetails = ({ movie }) => {
-  const [isFav, setIsFav] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const {
+    id,
     title,
     overview,
     genres,
@@ -13,7 +19,30 @@ const CardDetails = ({ movie }) => {
     release_date,
     runtime,
     original_language,
+    poster_path,
   } = movie;
+  let poster=`https://image.tmdb.org/t/p/w500${poster_path}`
+  useEffect(() => {
+    const checkFavorite = async () => {
+      const exists = await favoriteExists(id);
+      console.log("exists", exists);
+      setIsFavorite(exists);
+    };
+    checkFavorite();
+  }, []);
+
+  const toggleFavorite = async () => {
+    const filmData = { id, title, vote_average, poster };
+    console.log("filmData", filmData);
+    if (isFavorite) {
+      await deleteFavorite(id);
+    //   if (onDeleteFavorite) onDeleteFavorite(id);
+      setIsFavorite(false);
+    } else {
+      await addFavorite(filmData);
+      setIsFavorite(true);
+    }
+  };
 
   return (
     <View style={styles.detailsContainer}>
@@ -38,12 +67,12 @@ const CardDetails = ({ movie }) => {
 
         <TouchableOpacity
           style={styles.favIconContainer}
-          onPress={() => setIsFav(!isFav)}
+          onPress={toggleFavorite}
         >
           <Entypo
             name="heart"
             size={36}
-            style={isFav ? styles.activeFavIcon : styles.favIcon}
+            style={isFavorite ? styles.activeFavIcon : styles.favIcon}
           />
         </TouchableOpacity>
       </View>
@@ -94,15 +123,12 @@ const styles = StyleSheet.create({
   detailsContainer: {
     paddingTop: 25,
     padding: 20,
-    position: "absolute",
-    bottom: "-40%",
-    width: 340,
-    borderRadius: 50,
+    width: "85%",
     backgroundColor: "#1E1E1E",
-    zIndex: 3,
-    alignSelf: "center",
-    transform: [{ translateX: -195 }],
-    left: "50%",
+    borderRadius: 50,
+    marginBottom: 30,
+    marginHorizontal: "auto",
+    marginTop: -100,
   },
   row: {
     flexDirection: "row",

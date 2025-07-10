@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getMovieDetailsByID } from "../../api/themoviedbApi";
 import CardDetails from "../../components/CardDetails/CardDetails";
 import ModalImg from "../../components/CardDetails/ModalImg";
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const MovieDetails = ({ navigation, route }) => {
   const [isShow, setIsShow] = useState(false);
@@ -24,9 +25,9 @@ const MovieDetails = ({ navigation, route }) => {
   useEffect(() => {
     const fetchMovie = async () => {
       const data = await getMovieDetailsByID(id);
-      console.log("data", data);
+      // console.log("data", data);
       setMovie(data);
-      console.log(data);
+      // console.log(data);
 
       // try{
 
@@ -60,9 +61,18 @@ const MovieDetails = ({ navigation, route }) => {
     original_language,
   } = movie;
 
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        {/* arrow */}
+        <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.backButton}
+      >
+        <AntDesign name="left" size={24} color="#fff" />
+      </TouchableOpacity>
+        {/* image */}
         <TouchableOpacity
           style={styles.imageBackground}
           onPress={() => {
@@ -77,14 +87,19 @@ const MovieDetails = ({ navigation, route }) => {
           />
         </TouchableOpacity>
         {/* details */}
-        <CardDetails movie={movie} />
+        <CardDetails movie={movie}  />
         {/* <ModalImg /> */}
         <ModalImg
           isShow={isShow}
           setIsShow={setIsShow}
           poster_path={poster_path}
         />
+        <View style={{ height: 100 }}>
+          <Text>hello</Text>
+        </View>
+
       </ScrollView>
+
     </SafeAreaView>
   );
 };
@@ -93,10 +108,11 @@ export default MovieDetails;
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
+    // height: "100%",
+    flex: 1,
     backgroundColor: "#111",
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   imageBackground: {
     width: 410,
@@ -123,5 +139,17 @@ const styles = StyleSheet.create({
     bottom: 50,
     right: "48%",
     color: "#c55",
+  },
+  backButton: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+    zIndex: 3,
+    backgroundColor: "#1E1E1E",
+    padding: 8,
+    borderRadius: 22,
+    alignItems: "center",
+    justifyContent: "center",
+  
   },
 });
