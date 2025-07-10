@@ -31,6 +31,7 @@ export default function FilmCard({ movie, onDeleteFavorite }) {
     const filmData = { id, title, rating: vote_average, poster: poster_path };
     if (isFavorite) {
       await deleteFavorite(id);
+      if (onDeleteFavorite) onDeleteFavorite(id);
       setIsFavorite(false);
     } else {
       await addFavorite(filmData);
