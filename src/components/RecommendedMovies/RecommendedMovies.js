@@ -59,14 +59,9 @@ const RecommendedMovies = ({ navigation }) => {
     return (
       <TouchableOpacity
         style={{ marginHorizontal: 10 }}
-        onPress={() => navigation.navigate("FilmDetails", { movieId: item.id })}
+        onPress={() => navigation.navigate("MovieDetails", { movie })}
       >
-        <FilmCard
-          id={item.id}
-          title={item.title}
-          poster={posterUrl}
-          rating={item.vote_average.toFixed(1)}
-        />
+        <FilmCard movie={item} />
       </TouchableOpacity>
     );
   };

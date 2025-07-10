@@ -1,14 +1,20 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import {
   addFavorite,
   deleteFavorite,
   favoriteExists,
-} from '../../lib/favorites/utilitys.js';
+} from "../../lib/favorites/utilitys.js";
 
-export default function FilmCard({ movie }) {
+export default function FilmCard({ movie, onDeleteFavorite }) {
   const { id, title, vote_average, poster_path } = movie;
   const [isFavorite, setIsFavorite] = useState(false);
   const navigation = useNavigation();
@@ -25,6 +31,7 @@ export default function FilmCard({ movie }) {
     const filmData = { id, title, rating: vote_average, poster: poster_path };
     if (isFavorite) {
       await deleteFavorite(id);
+      if (onDeleteFavorite) onDeleteFavorite(id);
       setIsFavorite(false);
     } else {
       await addFavorite(filmData);
@@ -33,7 +40,7 @@ export default function FilmCard({ movie }) {
   };
 
   const goToDetails = () => {
-    navigation.navigate('MovieDetails', { movie }); 
+    navigation.navigate("MovieDetails", { movie });
   };
 
   return (
@@ -44,8 +51,15 @@ export default function FilmCard({ movie }) {
           style={styles.filmposter}
           imageStyle={styles.imageStyle}
         >
-          <TouchableOpacity style={styles.favIconContainer} onPress={toggleFavorite}>
-            <Ionicons name={isFavorite ? 'heart' : 'heart-outline'} size={20} color="#fff" />
+          <TouchableOpacity
+            style={styles.favIconContainer}
+            onPress={toggleFavorite}
+          >
+            <Ionicons
+              name={isFavorite ? "heart" : "heart-outline"}
+              size={20}
+              color="#fff"
+            />
           </TouchableOpacity>
         </ImageBackground>
 
@@ -62,33 +76,33 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   filmposter: {
-    width: 162,
+    width: 140,
     height: 216,
     borderRadius: 39,
-    overflow: 'hidden',
-    backgroundColor: 'lightgray',
-    justifyContent: 'flex-end',
+    overflow: "hidden",
+    backgroundColor: "lightgray",
+    justifyContent: "flex-end",
   },
   imageStyle: {
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   favIconContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 10,
     right: 10,
-    backgroundColor: '#1E1E1E',
+    backgroundColor: "#1E1E1E",
     padding: 8,
     borderRadius: 22,
   },
   titleContainer: {
+    width: 140,
     marginTop: 10,
     marginLeft: 3,
   },
   title: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 16,
-    fontWeight: '500',
-    textTransform: 'uppercase',
+    fontWeight: "500",
+    textTransform: "uppercase",
   },
- 
 });
