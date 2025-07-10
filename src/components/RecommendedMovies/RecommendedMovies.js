@@ -43,7 +43,11 @@ const RecommendedMovies = ({ navigation }) => {
       const res = await fetch(url, options);
       const data = await res.json();
       // Append new movies to the existing list
-      setMovies((prevMovies) => [...prevMovies, ...data.results]);
+      if (direction === "horizontal") {
+        setMovies(data.results.slice(0, 5));
+      } else {
+        setMovies((prevMovies) => [...prevMovies, ...data.results]);
+      }
     } catch (error) {
       console.log("Fetch error:", error);
     } finally {
