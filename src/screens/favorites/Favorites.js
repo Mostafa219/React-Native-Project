@@ -39,7 +39,14 @@ export default function Favorites() {
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#121011" />
-      <View style={{ backgroundColor: "#121011", flex: 1, padding: 20 }}>
+      <View
+        style={{
+          backgroundColor: "#121011",
+          flex: 1,
+          padding: 20,
+          paddingTop: 50,
+        }}
+      >
         <FlatList
           data={favorites}
           numColumns={2}
