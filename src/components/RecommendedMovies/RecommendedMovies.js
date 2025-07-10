@@ -57,12 +57,11 @@ const RecommendedMovies = ({ navigation }) => {
       : "https://placehold.co/162x216/1a1a1a/ffffff?text=No+Image";
 
     return (
-      <TouchableOpacity
-        style={{ marginHorizontal: 10 }}
-        onPress={() => navigation.navigate("MovieDetails", { movie })}
-      >
-        <FilmCard movie={item} />
-      </TouchableOpacity>
+              <FilmCard id={item.id}
+      title={item.title}
+      rating={item.vote_average}
+      poster={item.poster_path} />
+
     );
   };
 

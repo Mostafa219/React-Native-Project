@@ -46,7 +46,7 @@ export default function FilmCard({
   };
 
   const goToDetails = () => {
-    navigation.navigate("MovieDetails", { movie });
+    navigation.navigate("MovieDetails", { id });
   };
 
   return (

@@ -16,49 +16,44 @@ export default function MovieCardTrend() {
         style={styles.imageBackground}
         imageStyle={styles.imageStyle}
       >
-        
-<TouchableOpacity style={styles.trailerButton}>
+        <TouchableOpacity style={styles.trailerButton}>
           <Text style={styles.trailerText}>Watch Trailer ▶</Text>
         </TouchableOpacity>
-        
       </ImageBackground>
-      <View
-          style={styles.detailsContainer}
-        >
-          <Text style={styles.trending}>TRENDING</Text>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.trending}>TRENDING</Text>
 
-          <View style={styles.row}>
-            <Text style={styles.title}>EVIL DEAD RISE</Text>
-            <LinearGradient
-              colors={["#323232", "#767676", "#363535"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.bookButton}
-            >
-              <Text style={styles.bookText}>Book</Text>
-            </LinearGradient>
-          </View>
-
-          <View style={styles.row}>
-<Text style={styles.language}>
-  <Text style={{ color: 'red' }}>A.</Text> ENGLISH
-</Text>            <Text style={styles.formats}>2D.3D.4DX</Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.genre}>HORROR</Text>
-          </View>
+        <View style={styles.row}>
+          <Text style={styles.title}>EVIL DEAD RISE</Text>
+          <LinearGradient
+            colors={["#323232", "#767676", "#363535"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.bookButton}
+          >
+            <Text style={styles.bookText}>Book</Text>
+          </LinearGradient>
         </View>
+
+        <View style={styles.row}>
+          <Text style={styles.language}>
+            <Text style={{ color: "red" }}>A.</Text> ENGLISH
+          </Text>
+          <Text style={styles.formats}>2D.3D.4DX</Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.genre}>HORROR</Text>
+        </View>
+      </View>
     </View>
   );
 }
 
-
 const styles = StyleSheet.create({
   cardContainer: {
-    width: 353
-,
-marginHorizontal:"auto",
+    width: 353,
+    marginHorizontal: "auto",
     height: 400,
     overflow: "hidden",
   },
@@ -68,10 +63,8 @@ marginHorizontal:"auto",
   },
   imageStyle: {
     resizeMode: "cover",
-        height: 350,
-            borderRadius: 30,
-
-
+    height: 350,
+    borderRadius: 30,
   },
   trailerButton: {
     backgroundColor: "black",
@@ -92,14 +85,13 @@ marginHorizontal:"auto",
   detailsContainer: {
     width: 330,
     height: 150,
-   position:"absolute",
+    position: "absolute",
     padding: 26,
-    borderRadius:80,
-    backgroundColor:"#1E1E1E",
-    marginHorizontal:"auto",
-    marginLeft:15,
-    top:250,
-    
+    borderRadius: 80,
+    backgroundColor: "#1E1E1E",
+    marginHorizontal: "auto",
+    marginLeft: 15,
+    top: 250,
   },
   trending: {
     color: "#FFF",
