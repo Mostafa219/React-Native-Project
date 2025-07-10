@@ -16,6 +16,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { searchByQuery } from '../../api/themoviedbApi';
 import { getFavorites, deleteFavorite } from "../../lib/favorites/utilitys";
 import SearchCard from './../../components/SearchCard/SearchCard';
+import FilmCard from '../../components/FilmCard/Filmcard';
 
 const languages = [
   { label: 'English (US)', value: 'en-US' },
@@ -127,7 +128,7 @@ export default function Search() {
   }
 
 
-  const renderItem = ({ item }) => <SearchCard id={item.id} title={item.title} rating={item.vote_average} poster={item.poster_path} onDeleteFavorite={handleDeleteFavorite} />;
+  const renderItem = ({ item }) => <FilmCard id={item.id} title={item.title} rating={item.vote_average} poster={item.poster_path} onDeleteFavorite={handleDeleteFavorite} />;
 
   return (
     <View style={styles.container}>
@@ -204,9 +205,8 @@ export default function Search() {
         data={results}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-        numColumns={3}
+        numColumns={2}
         contentContainerStyle={styles.flatListContainer}
-        columnWrapperStyle={styles.columnWrapper}
         onEndReached={() => {
           if (hasMore && !loading) fetchMovies();
         }}
@@ -271,11 +271,6 @@ const styles = StyleSheet.create({
   },
   flatListContainer: {
     paddingBottom: 20,
-    paddingHorizontal: 5,
-  },
-  columnWrapper: {
-    justifyContent: 'space-between',
-    marginBottom: 10,
   },
   modalOverlay: {
     flex: 1,
