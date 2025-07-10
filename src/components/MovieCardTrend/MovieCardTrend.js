@@ -19,31 +19,34 @@ export default function MovieCardTrend() {
         <TouchableOpacity style={styles.trailerButton}>
           <Text style={styles.trailerText}>Watch Trailer ▶</Text>
         </TouchableOpacity>
-        <View style={styles.detailsContainer}>
-          <Text style={styles.trending}>TRENDING</Text>
-
-          <View style={styles.row}>
-            <Text style={styles.title}>EVIL DEAD RISE</Text>
-            <LinearGradient
-              colors={["#323232", "#767676", "#363535"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.bookButton}
-            >
-              <Text style={styles.bookText}>Book</Text>
-            </LinearGradient>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.language}>A. ENGLISH</Text>
-            <Text style={styles.formats}>2D.3D.4DX</Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.genre}>HORROR</Text>
-          </View>
-        </View>
       </ImageBackground>
+
+      <View style={styles.detailsContainer}>
+        <Text style={styles.trending}>TRENDING</Text>
+
+        <View style={styles.row}>
+          <Text style={styles.title}>EVIL DEAD RISE</Text>
+          <LinearGradient
+            colors={["#323232", "#767676", "#363535"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.bookButton}
+          >
+            <Text style={styles.bookText}>Book</Text>
+          </LinearGradient>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.language}>
+            <Text style={{ color: "red" }}>A.</Text> ENGLISH
+          </Text>
+          <Text style={styles.formats}>2D.3D.4DX</Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.genre}>HORROR</Text>
+        </View>
+      </View>
     </View>
   );
 }
@@ -51,11 +54,9 @@ export default function MovieCardTrend() {
 const styles = StyleSheet.create({
   cardContainer: {
     width: 353,
-    padding: 10,
+    marginHorizontal: "auto",
     height: 400,
-    borderRadius: 30,
     overflow: "hidden",
-    backgroundColor: "#000",
   },
   imageBackground: {
     flex: 1,
@@ -63,16 +64,18 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     resizeMode: "cover",
+    height: 350,
+    borderRadius: 30,
   },
   trailerButton: {
     backgroundColor: "black",
-    paddingHorizontal: 16,
-    paddingVertical: 6,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderRadius: 20,
     alignSelf: "flex-end",
     margin: 10,
     position: "absolute",
-    top: 220,
+    top: 200,
     right: 6,
     zIndex: 10,
   },
@@ -82,14 +85,17 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     width: 330,
-    padding: 16,
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
+    height: 150,
+    position: "absolute",
+    padding: 26,
+    borderRadius: 80,
     backgroundColor: "#1E1E1E",
     marginHorizontal: "auto",
+    marginLeft: 15,
+    top: 250,
   },
   trending: {
-    color: "#aaa",
+    color: "#FFF",
     fontSize: 12,
     marginBottom: 4,
   },
@@ -116,7 +122,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   formats: {
-    color: "#aaa",
+    color: "#FFF",
     fontSize: 12,
   },
   bookButton: {

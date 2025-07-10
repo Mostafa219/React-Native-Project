@@ -30,8 +30,7 @@ const CustomSplash = () => {
         resizeMode="contain"
       />
 
-      {/* Loader تحت في الأسفل */}
-      <ActivityIndicator size="large" color="#fff" style={styles.loader} />
+      
     </View>
   );
 };
