@@ -17,45 +17,64 @@ const RecommendedMovies = ({ navigation }) => {
   const [direction, setDirection] = useState("horizontal");
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const fetchData = async () => {
+    const accessToken = process.env.EXPO_PUBLIC_TMDB_ACCESS_TOKEN;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const accessToken = process.env.EXPO_PUBLIC_TMDB_ACCESS_TOKEN;
+    if (!accessToken) {
+      console.error("TMDB Access Token is not set in your .env file.");
+      setLoading(false);
+      return;
+    }
 
-      if (!accessToken) {
-        console.error("TMDB Access Token is not set in your .env file.");
-        setLoading(false);
-        return;
-      }
-      const url =
-        "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc";
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
-      try {
-        const res = await fetch(url, options);
-        const data = await res.json();
-        setMovies(data.results);
-      } catch (error) {
-        console.log("Fetch error:", error);
-      } finally {
-        setLoading(false);
-      }
+    // Append page number to the API URL
+    const url = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&page=${page}`;
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
     };
 
+    try {
+      const res = await fetch(url, options);
+      const data = await res.json();
+      // Append new movies to the existing list
+      setMovies((prevMovies) => [...prevMovies, ...data.results]);
+    } catch (error) {
+      console.log("Fetch error:", error);
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  };
+
+  // Fetch initial data on mount
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [page]);
+
+  const handleLoadMore = () => {
+    if (loadingMore) {
+      return;
+    }
+    setLoadingMore(true);
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const renderFooter = () => {
+    return loadingMore ? (
+      <ActivityIndicator
+        size="large"
+        color="#3a2734"
+        style={{ marginVertical: 20 }}
+      />
+    ) : null;
+  };
 
   const renderedItem = ({ item }) => {
-    const posterUrl = item.poster_path
-      ? `${IMAGE_BASE_URL}${item.poster_path}`
-      : "https://placehold.co/162x216/1a1a1a/ffffff?text=No+Image";
-
     return (
       <FilmCard
         id={item.id}
@@ -71,7 +90,7 @@ const RecommendedMovies = ({ navigation }) => {
       <View style={styles.headerSection}>
         <View style={styles.sectionHeader}>
           <Text style={{ fontSize: 16, fontWeight: "700", color: "#fff" }}>
-            {direction === "horizontal" ? "Recommended Movies" : "All Movies"}
+            Recommended Movies
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -89,7 +108,7 @@ const RecommendedMovies = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      {loading ? (
+      {loading && page === 1 ? (
         <ActivityIndicator
           size="large"
           color="#3a2734"
@@ -101,8 +120,11 @@ const RecommendedMovies = ({ navigation }) => {
           horizontal={true}
           data={movies}
           renderItem={renderedItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id.toString() + Math.random()}
           contentContainerStyle={styles.horizontalList}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooter}
         />
       ) : (
         <FlatList
@@ -111,8 +133,11 @@ const RecommendedMovies = ({ navigation }) => {
           numColumns={2}
           data={movies}
           renderItem={renderedItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id.toString() + Math.random()}
           contentContainerStyle={styles.verticalList}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooter}
         />
       )}
     </View>
