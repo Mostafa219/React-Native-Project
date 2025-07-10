@@ -15,7 +15,6 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { searchByQuery } from "../../api/themoviedbApi";
 import { getFavorites, deleteFavorite } from "../../lib/favorites/utilitys";
-import SearchCard from "./../../components/SearchCard/SearchCard";
 import FilmCard from "../../components/FilmCard/Filmcard";
 
 const languages = [
