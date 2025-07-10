@@ -22,7 +22,6 @@ export default function Favorites() {
       fetchFavorites();
     }, [])
   );
-
   async function handleDeleteFavorite(id) {
     try {
       await deleteFavorite(id);
@@ -39,14 +38,14 @@ export default function Favorites() {
   return (
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#121011" />
-      <View style={{ backgroundColor: "#121011", flex: 1, padding: 20 }}>
+      <View style={{ backgroundColor: "#121011", flex: 1, padding: 20, paddingVertical:50}}>
         <FlatList
           data={favorites}
           numColumns={2}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item, index) => item?.id?.toString() || index.toString()}
           renderItem={({ item }) => (
-            <FilmCard
-              id={item.id}
+            <FilmCard 
+              id={item.id}  style={{ marginLeft:90}}
               title={item.title}
               rating={item.rating}
               poster={item.poster}

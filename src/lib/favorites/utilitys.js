@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { string } from "prop-types";
 // get all favorites
 export async function getFavorites() {
   try {
@@ -38,7 +39,7 @@ export async function deleteFavorite(id) {
 
 export async function favoriteExists(id) {
   try {
-    const favorites = await getFavorites();
+    const favorites = await getFavorites(); 
     return favorites.some((favorite) => favorite.id === id);
   } catch (error) {
     console.error("Error checking if favorite exists in storage", error);
