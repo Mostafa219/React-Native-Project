@@ -59,6 +59,7 @@ const RecommendedMovies = ({ navigation }) => {
   );
 
   const handleLoadMore = () => {
+    if (direction === "horizontal") return;
     if (loadingMore) {
       return;
     }
