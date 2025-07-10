@@ -13,6 +13,7 @@ import Home from "./src/screens/home/Home";
 import FilmCard from "./src/components/FilmCard/Filmcard";
 import MovieCardTrend from "./src/components/MovieCardTrend/MovieCardTrend";
 import MovieDetails from "./src/screens/MovieDetails/MovieDetails";
+import Search from "./src/screens/search/Search";
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
@@ -29,35 +30,6 @@ function HomeScreen() {
       }}
     >
       <Home />
-    </View>
-  );
-}
-function SearchScreen() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#121011",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text style={{ color: "#fff" }}>Home Screen</Text>
-    </View>
-  );
-}
-
-function FavouriteScreen() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#121011",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text style={{ color: "#fff" }}>Favourite Screen</Text>
     </View>
   );
 }
@@ -80,7 +52,7 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Favourite" component={Favorites} />
     </Tab.Navigator>
   );
