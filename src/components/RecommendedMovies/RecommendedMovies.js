@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -8,8 +7,10 @@ import {
   ActivityIndicator,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useState, useCallback } from "react";
 
 import FilmCard from "../FilmCard/Filmcard";
+import { useFocusEffect } from "@react-navigation/native";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
@@ -51,10 +52,11 @@ const RecommendedMovies = ({ navigation }) => {
     }
   };
 
-  // Fetch initial data on mount
-  useEffect(() => {
-    fetchData();
-  }, [page]);
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [page])
+  );
 
   const handleLoadMore = () => {
     if (loadingMore) {
