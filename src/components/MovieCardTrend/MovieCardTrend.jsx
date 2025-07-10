@@ -40,8 +40,9 @@ export default function MovieCardTrend() {
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.language}>A. ENGLISH</Text>
-            <Text style={styles.formats}>2D.3D.4DX</Text>
+<Text style={styles.language}>
+  <Text style={{ color: 'red' }}>A.</Text> ENGLISH
+</Text>            <Text style={styles.formats}>2D.3D.4DX</Text>
           </View>
 
           <View style={styles.row}>
