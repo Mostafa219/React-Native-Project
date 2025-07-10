@@ -15,6 +15,7 @@ import { getMovieDetailsByID } from "../../api/themoviedbApi";
 import CardDetails from "../../components/CardDetails/CardDetails";
 import ModalImg from "../../components/CardDetails/ModalImg";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import RecomendationDetails from "../../components/CardDetails/RecomendationDetails";
 
 const MovieDetails = ({ navigation, route }) => {
   const [isShow, setIsShow] = useState(false);
@@ -25,23 +26,12 @@ const MovieDetails = ({ navigation, route }) => {
   useEffect(() => {
     const fetchMovie = async () => {
       const data = await getMovieDetailsByID(id);
-      // console.log("data", data);
+    
       setMovie(data);
-      // console.log(data);
-
-      // try{
-
-      //   const res = await fetch( `https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=${process.env.EXPO_PUBLIC_API_KEY}`);
-      //   const data = await res.json();
-      //   console.log("data", data);
-      //   setMovie(data);
-      //   console.log(data);
-      // }catch(error){
-      //   console.log(error);
-      // }
+     
     };
     fetchMovie();
-  }, []);
+  }, [id]);
   const {
     title,
     overview,
@@ -60,6 +50,7 @@ const MovieDetails = ({ navigation, route }) => {
     vote_count,
     original_language,
   } = movie;
+
 
 
   return (
@@ -94,10 +85,8 @@ const MovieDetails = ({ navigation, route }) => {
           setIsShow={setIsShow}
           poster_path={poster_path}
         />
-        <View style={{ height: 100 }}>
-          <Text>hello</Text>
-        </View>
-
+        {/* <RecommendedMovies /> */}
+        <RecomendationDetails recommendations={recommendations}/>
       </ScrollView>
 
     </SafeAreaView>
@@ -108,11 +97,10 @@ export default MovieDetails;
 
 const styles = StyleSheet.create({
   container: {
-    // height: "100%",
+
     flex: 1,
     backgroundColor: "#111",
-    // alignItems: "center",
-    // justifyContent: "center",
+
   },
   imageBackground: {
     width: 410,

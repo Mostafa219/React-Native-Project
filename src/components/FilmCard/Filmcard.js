@@ -35,7 +35,7 @@ export default function FilmCard({
 
   const toggleFavorite = async () => {
     const filmData = { id, title, rating, poster };
-    console.log("filmData", filmData);
+ 
     if (isFavorite) {
       await deleteFavorite(id);
       if (onDeleteFavorite) onDeleteFavorite(id);

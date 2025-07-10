@@ -1,12 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import {
   addFavorite,
   deleteFavorite,
   favoriteExists,
+  getFavorites,
 } from "../../lib/favorites/utilitys";
+import { useFocusEffect } from "@react-navigation/native";
 
 const CardDetails = ({ movie }) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -22,21 +24,28 @@ const CardDetails = ({ movie }) => {
     poster_path,
   } = movie;
   let poster=`https://image.tmdb.org/t/p/w500${poster_path}`
-  useEffect(() => {
+
+
+
+  useFocusEffect(
+  useCallback(() => {
     const checkFavorite = async () => {
       const exists = await favoriteExists(id);
-      console.log("exists", exists);
+
       setIsFavorite(exists);
     };
     checkFavorite();
-  }, []);
+  }, [id]) 
+);
+
+
 
   const toggleFavorite = async () => {
     const filmData = { id, title, vote_average, poster };
-    console.log("filmData", filmData);
+
     if (isFavorite) {
       await deleteFavorite(id);
-    //   if (onDeleteFavorite) onDeleteFavorite(id);
+ 
       setIsFavorite(false);
     } else {
       await addFavorite(filmData);
