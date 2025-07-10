@@ -20,7 +20,9 @@ export default function MovieCardTrend() {
 <TouchableOpacity style={styles.trailerButton}>
           <Text style={styles.trailerText}>Watch Trailer ▶</Text>
         </TouchableOpacity>
-        <View
+        
+      </ImageBackground>
+      <View
           style={styles.detailsContainer}
         >
           <Text style={styles.trending}>TRENDING</Text>
@@ -46,7 +48,6 @@ export default function MovieCardTrend() {
             <Text style={styles.genre}>HORROR</Text>
           </View>
         </View>
-      </ImageBackground>
     </View>
   );
 }
@@ -57,9 +58,7 @@ const styles = StyleSheet.create({
     width: 353
 ,
     height: 400,
-    borderRadius: 30,
     overflow: "hidden",
-    backgroundColor: "#000",
   },
   imageBackground: {
     flex: 1,
@@ -67,16 +66,20 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     resizeMode: "cover",
+        height: 350,
+            borderRadius: 30,
+
+
   },
   trailerButton: {
     backgroundColor: "black",
-    paddingHorizontal: 16,
-    paddingVertical: 6,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderRadius: 20,
     alignSelf: "flex-end",
     margin: 10,
     position: "absolute",
-    top: 220,
+    top: 200,
     right: 6,
     zIndex: 10,
   },
@@ -86,14 +89,18 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     width: 330,
-    padding: 16,
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
+    height: 150,
+   position:"absolute",
+    padding: 26,
+    borderRadius:80,
     backgroundColor:"#1E1E1E",
-    marginHorizontal:"auto"
+    marginHorizontal:"auto",
+    marginLeft:15,
+    top:250,
+    
   },
   trending: {
-    color: "#aaa",
+    color: "#FFF",
     fontSize: 12,
     marginBottom: 4,
   },
@@ -120,7 +127,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   formats: {
-    color: "#aaa",
+    color: "#FFF",
     fontSize: 12,
   },
   bookButton: {
