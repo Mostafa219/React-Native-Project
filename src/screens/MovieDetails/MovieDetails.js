@@ -10,19 +10,16 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
-
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getMovieDetailsByID } from "../../api/themoviedbApi";
 import CardDetails from "../../components/CardDetails/CardDetails";
 import ModalImg from "../../components/CardDetails/ModalImg";
 
-
-const MovieDetails = () => {
+const MovieDetails = ({ navigation, route }) => {
   const [isShow, setIsShow] = useState(false);
   const [movie, setMovie] = useState([]);
- 
 
-  let id = 541671;
+  let id = route.params.id;
   // fetch movies
   useEffect(() => {
     const fetchMovie = async () => {
@@ -81,9 +78,12 @@ const MovieDetails = () => {
         </TouchableOpacity>
         {/* details */}
         <CardDetails movie={movie} />
-          {/* <ModalImg /> */}
-          <ModalImg isShow={isShow} setIsShow={setIsShow} poster_path={poster_path} />
-        
+        {/* <ModalImg /> */}
+        <ModalImg
+          isShow={isShow}
+          setIsShow={setIsShow}
+          poster_path={poster_path}
+        />
       </ScrollView>
     </SafeAreaView>
   );

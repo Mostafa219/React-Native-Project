@@ -14,6 +14,7 @@ import {
   favoriteExists,
 } from "../../lib/favorites/utilitys.js";
 
+import MovieDetails from "../../screens/MovieDetails/MovieDetails.js";
 export default function FilmCard({
   id,
   title,
