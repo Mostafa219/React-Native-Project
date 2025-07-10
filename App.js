@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
+import Favorites from "./src/screens/favorites/Favorites";
 
 import CustomSplash from "./src/screens/splash/splash";
 import Home from "./src/screens/home/Home";
@@ -19,15 +20,29 @@ const Tab = createBottomTabNavigator();
 
 function HomeScreen() {
   return (
-    <View style={{ flex: 1, backgroundColor: '#121011', justifyContent: 'center', alignItems: 'center' }}>
-      <Home/>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#121011",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Home />
     </View>
   );
 }
 function SearchScreen() {
   return (
-    <View style={{ flex: 1, backgroundColor: '#121011', justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ color: '#fff' }}>Home Screen</Text>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#121011",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text style={{ color: "#fff" }}>Home Screen</Text>
     </View>
   );
 }
@@ -52,21 +67,21 @@ function MainTabs() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: '#EB2F3D',
-        tabBarInactiveTintColor: '#999',
-        tabBarStyle: { backgroundColor: '#1E1E1E' },
+        tabBarActiveTintColor: "#EB2F3D",
+        tabBarInactiveTintColor: "#999",
+        tabBarStyle: { backgroundColor: "#1E1E1E" },
         tabBarIcon: ({ color, size }) => {
           let iconName;
-          if (route.name === 'Home') iconName = 'home';
-          else if (route.name === 'Search') iconName = 'search';
-          else if (route.name === 'Favourite') iconName = 'heart';
+          if (route.name === "Home") iconName = "home";
+          else if (route.name === "Search") iconName = "search";
+          else if (route.name === "Favourite") iconName = "heart";
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Favourite" component={FavouriteScreen} />
+      <Tab.Screen name="Favourite" component={Favorites} />
     </Tab.Navigator>
   );
 }
