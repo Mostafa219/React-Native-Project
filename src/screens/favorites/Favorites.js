@@ -37,7 +37,7 @@ export default function Favorites() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#121011" }}>
       <StatusBar barStyle="light-content" backgroundColor="#121011" />
-      <View style={{ flex: 1, padding: 20 }}>
+      <View style={{ flex: 1 }}>
         <FlatList
           data={favorites}
           numColumns={2}
