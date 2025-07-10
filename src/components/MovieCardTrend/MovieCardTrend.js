@@ -16,13 +16,10 @@ export default function MovieCardTrend() {
         style={styles.imageBackground}
         imageStyle={styles.imageStyle}
       >
-        
-<TouchableOpacity style={styles.trailerButton}>
+        <TouchableOpacity style={styles.trailerButton}>
           <Text style={styles.trailerText}>Watch Trailer ▶</Text>
         </TouchableOpacity>
-        <View
-          style={styles.detailsContainer}
-        >
+        <View style={styles.detailsContainer}>
           <Text style={styles.trending}>TRENDING</Text>
 
           <View style={styles.row}>
@@ -51,11 +48,10 @@ export default function MovieCardTrend() {
   );
 }
 
-
 const styles = StyleSheet.create({
   cardContainer: {
-    width: 353
-,
+    width: 353,
+    padding: 10,
     height: 400,
     borderRadius: 30,
     overflow: "hidden",
@@ -89,8 +85,8 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    backgroundColor:"#1E1E1E",
-    marginHorizontal:"auto"
+    backgroundColor: "#1E1E1E",
+    marginHorizontal: "auto",
   },
   trending: {
     color: "#aaa",
