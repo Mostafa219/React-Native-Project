@@ -12,8 +12,9 @@ import {
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { searchByQuery } from '../../api/themoviedbApi';
+import { getFavorites, deleteFavorite } from "../../lib/favorites/utilitys";
 import SearchCard from './../../components/SearchCard/SearchCard';
 
 const languages = [
@@ -97,27 +98,56 @@ export default function Search() {
     return () => clearTimeout(timer);
   }, [query]);
 
-  const renderItem = ({ item }) => <SearchCard item={item} />;
+  const [favorites, setFavorites] = useState([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchFavorites = async () => {
+        try {
+          const favorites = await getFavorites();
+          setFavorites(favorites);
+        } catch (error) {
+          console.error("Error fetching favorites:", error);
+        }
+      };
+
+      fetchFavorites();
+    }, [])
+  );
+
+  async function handleDeleteFavorite(id) {
+    try {
+      await deleteFavorite(id);
+      setFavorites((prevFavorites) =>
+        prevFavorites.filter((favorite) => favorite.id !== id)
+      );
+    } catch (error) {
+      console.error("Error deleting favorite:", error);
+    }
+  }
+
+
+  const renderItem = ({ item }) => <SearchCard id={item.id} title={item.title} rating={item.vote_average} poster={item.poster_path} onDeleteFavorite={handleDeleteFavorite} />;
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backArrow}>
-        <Ionicons name="chevron-back" size={24} color="#fff" />
-      </TouchableOpacity>
-      <View style={styles.searchBar}>
-        <TextInput
-          placeholder="Search any movies name here"
-          placeholderTextColor="#939392"
-          style={styles.input}
-          value={query}
-          onChangeText={setQuery}
-        />
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <FontAwesome name="filter" size={24} color="#fff" />
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backArrow}>
+          <Ionicons name="chevron-back" size={24} color="#fff" />
         </TouchableOpacity>
+        <View style={styles.searchBar}>
+          <TextInput
+            placeholder="Search any movies name here"
+            placeholderTextColor="#939392"
+            style={styles.input}
+            value={query}
+            onChangeText={setQuery}
+          />
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <FontAwesome name="filter" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
       <View style={styles.resultsHeader}>
         <Text style={styles.resultsTitle}>Search Results</Text>
         {!loading && results.length === 0 && query.trim() !== '' && (
@@ -134,7 +164,7 @@ export default function Search() {
               value={language}
               items={languageItems}
               setOpen={setLanguageOpen}
-              setValue={(callback) => setLanguage(callback(language)) }
+              setValue={(callback) => setLanguage(callback(language))}
               setItems={setLanguageItems}
               placeholder="Select Language"
               style={styles.dropdown}
@@ -147,7 +177,7 @@ export default function Search() {
               value={year}
               items={yearItems}
               setOpen={setYearOpen}
-              setValue={(callback) => setYear(callback(year)) }
+              setValue={(callback) => setYear(callback(year))}
               setItems={setYearItems}
               placeholder="Select Year"
               style={styles.dropdown}
@@ -198,8 +228,8 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginBottom: 10,
     backgroundColor: '#1E1E1E',
-    height:50,
-    width:50,
+    height: 50,
+    width: 50,
     borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
