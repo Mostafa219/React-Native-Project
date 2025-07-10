@@ -42,11 +42,13 @@ const RecommendedMovies = ({ navigation }) => {
     try {
       const res = await fetch(url, options);
       const data = await res.json();
+      const filteredMovies = data.results.filter((movie) => !movie.adult);
+
       // Append new movies to the existing list
       if (direction === "horizontal") {
-        setMovies(data.results.slice(0, 5));
+        setMovies(filteredMovies.slice(0, 5));
       } else {
-        setMovies((prevMovies) => [...prevMovies, ...data.results]);
+        setMovies((prevMovies) => [...prevMovies, ...filteredMovies]);
       }
     } catch (error) {
       console.log("Fetch error:", error);
@@ -157,6 +159,7 @@ const styles = StyleSheet.create({
   headerSection: {
     marginTop: 10,
     paddingHorizontal: 20,
+    
   },
   sectionHeader: {
     flexDirection: "row",

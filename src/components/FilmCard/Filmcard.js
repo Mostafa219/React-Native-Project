@@ -71,7 +71,9 @@ export default function FilmCard({
         </ImageBackground>
 
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title}>
+            {title.split(" ").slice(0, 4).join(" ")}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -81,7 +83,7 @@ export default function FilmCard({
 const styles = StyleSheet.create({
   filmcard: {
     margin: 10,
-    marginLeft:22
+    marginLeft: 22,
   },
   filmposter: {
     width: 140,
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "500",
     textTransform: "uppercase",
   },

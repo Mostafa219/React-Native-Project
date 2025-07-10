@@ -28,7 +28,7 @@ export default Home;
 
 const styles = StyleSheet.create({
   scrollContent: {
-    paddingBottom: 10,
+    paddingBottom: 100,
   },
   trend: {
     justifyContent: "center",

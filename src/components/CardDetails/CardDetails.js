@@ -19,7 +19,9 @@ const CardDetails = ({ movie }) => {
     <View style={styles.detailsContainer}>
       <View style={[styles.row, styles.borderBottom]}>
         <View>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title}>
+            {(title ?? "").split(" ").slice(0, 5).join(" ")}
+          </Text>
           <View style={styles.rating}>
             {[...Array(5)].map((_, i) => (
               <AntDesign
