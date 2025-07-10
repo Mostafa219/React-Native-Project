@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import FilmCard from "../../components/FilmCard/Filmcard";
 import { getFavorites, deleteFavorite } from "../../lib/favorites/utilitys";
 import { FlatList, StatusBar, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState([]);
@@ -34,19 +34,10 @@ export default function Favorites() {
     }
   }
 
-  console.log("favorites", favorites);
-
   return (
-    <>
-      <StatusBar barStyle="dark-content" backgroundColor="#121011" />
-      <View
-        style={{
-          backgroundColor: "#121011",
-          flex: 1,
-          padding: 20,
-          paddingTop: 50,
-        }}
-      >
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#121011" }}>
+      <StatusBar barStyle="light-content" backgroundColor="#121011" />
+      <View style={{ flex: 1, padding: 20 }}>
         <FlatList
           data={favorites}
           numColumns={2}
@@ -62,6 +53,6 @@ export default function Favorites() {
           )}
         />
       </View>
-    </>
+    </SafeAreaView>
   );
 }

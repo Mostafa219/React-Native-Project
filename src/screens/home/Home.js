@@ -1,12 +1,14 @@
 import { StyleSheet, View, FlatList, StatusBar } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import RecommendedMovies from "../../components/RecommendedMovies/RecommendedMovies";
 import MovieCardTrend from "../../components/MovieCardTrend/MovieCardTrend";
 
 const Home = ({ navigation }) => {
   return (
-    <>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#111010" }}>
       <StatusBar barStyle="light-content" backgroundColor="#111010" />
       <FlatList
+        contentContainerStyle={styles.scrollContent}
         ListHeaderComponent={
           <>
             <View style={styles.trend}>
@@ -18,7 +20,7 @@ const Home = ({ navigation }) => {
           </>
         }
       />
-    </>
+    </SafeAreaView>
   );
 };
 
