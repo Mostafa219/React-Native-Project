@@ -81,6 +81,7 @@ export default function FilmCard({
 const styles = StyleSheet.create({
   filmcard: {
     margin: 10,
+    marginLeft:22
   },
   filmposter: {
     width: 140,
