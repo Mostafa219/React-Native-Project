@@ -90,7 +90,7 @@ const RecommendedMovies = ({ navigation }) => {
       <View style={styles.headerSection}>
         <View style={styles.sectionHeader}>
           <Text style={{ fontSize: 16, fontWeight: "700", color: "#fff" }}>
-            Recommended Movies
+            {direction === "horizontal" ? "Recommended Movies" : "All Movies"}
           </Text>
           <TouchableOpacity
             onPress={() => {
