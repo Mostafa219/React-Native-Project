@@ -20,7 +20,7 @@ const Tab = createBottomTabNavigator();
 function HomeScreen() {
   return (
     <View style={{ flex: 1, backgroundColor: '#121011', justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ color: '#fff' }}>Home Screen</Text>
+      <Home/>
     </View>
   );
 }

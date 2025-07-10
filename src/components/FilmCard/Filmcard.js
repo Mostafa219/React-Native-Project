@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import {
   addFavorite,
   deleteFavorite,
   favoriteExists,
 } from '../../lib/favorites/utilitys.js';
 
-export default function FilmCard({ id, title, rating, poster }) {
+export default function FilmCard({ movie }) {
+  const { id, title, vote_average, poster_path } = movie;
   const [isFavorite, setIsFavorite] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const checkFavorite = async () => {
@@ -19,7 +22,7 @@ export default function FilmCard({ id, title, rating, poster }) {
   }, []);
 
   const toggleFavorite = async () => {
-    const filmData = { id, title, rating, poster };
+    const filmData = { id, title, rating: vote_average, poster: poster_path };
     if (isFavorite) {
       await deleteFavorite(id);
       setIsFavorite(false);
@@ -29,23 +32,28 @@ export default function FilmCard({ id, title, rating, poster }) {
     }
   };
 
-  return (
-    <View style={styles.filmcard}>
-      <ImageBackground
-        source={typeof poster === 'string' ? { uri: poster } : poster}
-        style={styles.filmposter}
-        imageStyle={styles.imageStyle}
-      >
-        <TouchableOpacity style={styles.favIconContainer} onPress={toggleFavorite}>
-          <Ionicons name={isFavorite ? 'heart' : 'heart-outline'} size={20} color="#fff" />
-        </TouchableOpacity>
-      </ImageBackground>
+  const goToDetails = () => {
+    navigation.navigate('MovieDetails', { movie }); 
+  };
 
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.rating}>⭐ {rating}</Text>
+  return (
+    <TouchableOpacity onPress={goToDetails}>
+      <View style={styles.filmcard}>
+        <ImageBackground
+          source={{ uri: `https://image.tmdb.org/t/p/w500${poster_path}` }}
+          style={styles.filmposter}
+          imageStyle={styles.imageStyle}
+        >
+          <TouchableOpacity style={styles.favIconContainer} onPress={toggleFavorite}>
+            <Ionicons name={isFavorite ? 'heart' : 'heart-outline'} size={20} color="#fff" />
+          </TouchableOpacity>
+        </ImageBackground>
+
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -82,9 +90,5 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     textTransform: 'uppercase',
   },
-  rating: {
-    color: '#aaa',
-    fontSize: 12,
-    marginTop: 2,
-  },
+ 
 });
