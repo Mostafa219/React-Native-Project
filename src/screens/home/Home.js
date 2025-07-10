@@ -20,7 +20,12 @@ const Home = ({ navigation }) => {
 export default Home;
 
 const homeStyles = StyleSheet.create({
-  wrapper: {
-    marginTop: 28,
+  scrollar: {
+    marginTop: 10,
+  },
+  trend: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
   },
 });

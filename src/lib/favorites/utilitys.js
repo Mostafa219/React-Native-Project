@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export async function getFavorites() {
   try {
     const favorites = await AsyncStorage.getItem("favorites");
+
     return favorites ? JSON.parse(favorites) : [];
   } catch (error) {
     console.error("Error reading favorites from storage", error);

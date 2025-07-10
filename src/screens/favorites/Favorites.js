@@ -1,23 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import FilmCard from "../../components/FilmCard/Filmcard";
 import { getFavorites, deleteFavorite } from "../../lib/favorites/utilitys";
 import { FlatList, StatusBar, View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState([]);
 
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const favorites = await getFavorites();
-        setFavorites(favorites);
-      } catch (error) {
-        console.error("Error fetching favorites:", error);
-      }
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const fetchFavorites = async () => {
+        try {
+          const favorites = await getFavorites();
+          setFavorites(favorites);
+        } catch (error) {
+          console.error("Error fetching favorites:", error);
+        }
+      };
 
-    fetchFavorites();
-  }, []);
+      fetchFavorites();
+    }, [])
+  );
 
   async function handleDeleteFavorite(id) {
     try {
@@ -30,16 +34,24 @@ export default function Favorites() {
     }
   }
 
+  console.log("favorites", favorites);
+
   return (
     <>
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
-      <View style={{ backgroundColor: "#121011", flex: 1 }}>
+      <StatusBar barStyle="dark-content" backgroundColor="#121011" />
+      <View style={{ backgroundColor: "#121011", flex: 1, padding: 20 }}>
         <FlatList
           data={favorites}
           numColumns={2}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <FilmCard movie={item} onDeleteFavorite={handleDeleteFavorite} />
+            <FilmCard
+              id={item.id}
+              title={item.title}
+              rating={item.rating}
+              poster={item.poster}
+              onDeleteFavorite={handleDeleteFavorite}
+            />
           )}
         />
       </View>

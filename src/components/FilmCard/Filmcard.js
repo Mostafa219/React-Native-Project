@@ -14,8 +14,13 @@ import {
   favoriteExists,
 } from "../../lib/favorites/utilitys.js";
 
-export default function FilmCard({ movie, onDeleteFavorite }) {
-  const { id, title, vote_average, poster_path } = movie;
+export default function FilmCard({
+  id,
+  title,
+  rating,
+  poster,
+  onDeleteFavorite,
+}) {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigation = useNavigation();
 
@@ -28,7 +33,8 @@ export default function FilmCard({ movie, onDeleteFavorite }) {
   }, []);
 
   const toggleFavorite = async () => {
-    const filmData = { id, title, rating: vote_average, poster: poster_path };
+    const filmData = { id, title, rating, poster };
+    console.log("filmData", filmData);
     if (isFavorite) {
       await deleteFavorite(id);
       if (onDeleteFavorite) onDeleteFavorite(id);
@@ -47,7 +53,7 @@ export default function FilmCard({ movie, onDeleteFavorite }) {
     <TouchableOpacity onPress={goToDetails}>
       <View style={styles.filmcard}>
         <ImageBackground
-          source={{ uri: `https://image.tmdb.org/t/p/w500${poster_path}` }}
+          source={{ uri: `https://image.tmdb.org/t/p/w500${poster}` }}
           style={styles.filmposter}
           imageStyle={styles.imageStyle}
         >
@@ -73,7 +79,7 @@ export default function FilmCard({ movie, onDeleteFavorite }) {
 
 const styles = StyleSheet.create({
   filmcard: {
-    marginVertical: 20,
+    margin: 10,
   },
   filmposter: {
     width: 140,
